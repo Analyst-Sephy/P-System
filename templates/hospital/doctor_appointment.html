@@ -1,0 +1,224 @@
+{% extends 'hospital/doctor_base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
+
+  <!-- Optimized CDN links for faster loading -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  
+  <!-- Modern Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  
+  <!-- Font Awesome with subset loading -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style type="text/css">
+    :root {
+      --primary-blue: #4099ff;
+      --secondary-blue: #73b4ff;
+      --primary-green: #2ed8b6;
+      --secondary-green: #59e0c5;
+      --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --transition-speed: 0.25s;
+    }
+
+    .dashboard-container {
+      padding: 2rem 1rem;
+      min-height: calc(100vh - 120px);
+    }
+
+    .order-card {
+      color: #fff;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition-speed) ease-in-out;
+      border: none;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .order-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--card-shadow);
+    }
+
+    .bg-c-blue {
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    }
+
+    .bg-c-green {
+      background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    }
+
+    .card-block {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-link {
+      display: block;
+      color: white;
+      text-decoration: none;
+      flex: 1;
+    }
+
+    .card-link:hover {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      position: absolute;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      opacity: 0.2;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .order-card:hover .card-icon {
+      transform: scale(1.1);
+      opacity: 0.3;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-description {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 1rem;
+      }
+      
+      .card-block {
+        padding: 1rem;
+      }
+      
+      .card-icon {
+        font-size: 2rem;
+        right: 1rem;
+        bottom: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .col-md-4 {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<div class="dashboard-container">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-6">
+        <div class="card bg-c-blue order-card">
+          <a href="/doctor-view-appointment" class="card-link">
+            <div class="card-block">
+              <h6 class="card-title">View Your Appointments</h6>
+              <p class="card-description">Check and manage all your scheduled patient appointments</p>
+              <i class="fas fa-calendar card-icon"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-6">
+        <div class="card bg-c-green order-card">
+          <a href="/doctor-delete-appointment" class="card-link">
+            <div class="card-block">
+              <h6 class="card-title">Manage Appointments</h6>
+              <p class="card-description">Cancel or reschedule existing appointments</p>
+              <i class="fas fa-calendar-times card-icon"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Cards for More Functionality -->
+    <div class="row g-4 mt-2">
+      <div class="col-md-6 col-xl-6">
+        <div class="card bg-c-blue order-card">
+          <a href="/doctor-patient" class="card-link">
+            <div class="card-block">
+              <h6 class="card-title">Patient Records</h6>
+              <p class="card-description">Access and update patient medical information</p>
+              <i class="fas fa-user-injured card-icon"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-6">
+        <div class="card bg-c-green order-card">
+          <a href="/doctor-prescription" class="card-link">
+            <div class="card-block">
+              <h6 class="card-title">Write Prescriptions</h6>
+              <p class="card-description">Create and manage patient prescriptions</p>
+              <i class="fas fa-prescription-bottle-alt card-icon"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Optimized JavaScript loading -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" 
+        crossorigin="anonymous" defer></script>
+
+<script>
+  // Preload hover state for better perceived performance
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.order-card');
+    
+    // Prefetch links when hovering over cards
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        const link = this.querySelector('a').href;
+        const prefetchLink = document.createElement('link');
+        prefetchLink.rel = 'prefetch';
+        prefetchLink.href = link;
+        document.head.appendChild(prefetchLink);
+      });
+    });
+    
+    // Add click animation
+    cards.forEach(card => {
+      card.addEventListener('click', function() {
+        this.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+  });
+</script>
+
+{% endblock content %}

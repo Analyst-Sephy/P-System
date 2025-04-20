@@ -1,0 +1,235 @@
+{% extends 'hospital/admin_base.html' %}
+{% load static %}
+{% block content %}
+<br><br>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style type="text/css">
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    a:link {
+      text-decoration: none;
+    }
+
+    .menu {
+      top: 50px;
+    }
+
+    h6 {
+      color: white;
+      font-weight: 600;
+    }
+
+    .order-card {
+      color: #fff;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .order-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .bg-c-blue {
+      background: linear-gradient(45deg, #4099ff,#e46038);
+    }
+
+    .bg-c-green {
+      background: linear-gradient(45deg, #2ed8b6,#402cb3);
+    }
+
+    .bg-c-yellow {
+      background: linear-gradient(45deg, #FFB64D,#3f14a3);
+    }
+
+    .bg-c-pink {
+      background: linear-gradient(45deg, #FF5370,#512277);
+    }
+
+    .card {
+      border: none;
+      margin-bottom: 30px;
+    }
+
+    .card .card-block {
+      padding: 25px;
+    }
+
+    .order-card i {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .f-left {
+      float: left;
+    }
+
+    .f-right {
+      float: right;
+    }
+
+    .statistics-section {
+      margin-top: 40px;
+    }
+
+    .statistics-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .statistics-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .statistics-card h5 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .statistics-card p {
+      font-size: 24px;
+      font-weight: 700;
+      color: #4099ff;
+    }
+
+    .recent-activity {
+      margin-top: 40px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .recent-activity h4 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .activity-item i {
+      font-size: 20px;
+      margin-right: 10px;
+      color: #4099ff;
+    }
+
+    .activity-item p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+
+<div class="container">
+  <!-- Quick Actions Section -->
+  <div class="row">
+    <div class="col-md-4 col-xl-3">
+      <div class="card bg-c-blue order-card">
+        <div class="card-block text-center">
+          <a href="/admin-view-patient">
+            <h6 class="m-b-20">Patient Record</h6>
+          </a>
+          <i class="fas fa-user-injured"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-xl-3">
+      <div class="card bg-c-green order-card">
+        <div class="card-block text-center">
+          <a href="/admin-add-patient">
+            <h6 class="m-b-20">Admit Patient</h6>
+          </a>
+          <i class="fas fa-user-plus"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-xl-3">
+      <div class="card bg-c-yellow order-card">
+        <div class="card-block text-center">
+          <a href="/admin-approve-patient">
+            <h6 class="m-b-20">Approve Patient</h6>
+          </a>
+          <i class="fas fa-check-circle"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-xl-3">
+      <div class="card bg-c-pink order-card">
+        <div class="card-block text-center">
+          <a href="/admin-discharge-patient">
+            <h6 class="m-b-20">Discharge Patient</h6>
+          </a>
+          <i class="fas fa-eject"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Section -->
+  <div class="row statistics-section">
+    <div class="col-md-4">
+      <div class="statistics-card text-center">
+        <h5>Total Patients</h5>
+        <p> 50 </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="statistics-card text-center">
+        <h5>Active Appointments</h5>
+        <p> 05 </p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="statistics-card text-center">
+        <h5>Doctors Available</h5>
+        <p> 10 </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity Section -->
+  <div class="recent-activity">
+    <h4>Recent Activity</h4>
+    <div class="activity-item">
+      <i class="fas fa-user-plus"></i>
+      <p>New patient admitted: John </p>
+    </div>
+    <div class="activity-item">
+      <i class="fas fa-check-circle"></i>
+      <p>Patient approved: Jane </p>
+    </div>
+    <div class="activity-item">
+      <i class="fas fa-eject"></i>
+      <p>Patient discharged: Alice </p>
+    </div>
+  </div>
+</div>
+
+
+<br><br><br><br><br><br><br>
+{% endblock content %}

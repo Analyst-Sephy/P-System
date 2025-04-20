@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Pluscare || Contact Us</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.3.0/web3.min.js"></script>
+  <style media="screen">
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .contact-hero {
+      background-image: url('{% static "images/lover.avif" %}');
+      background-size: cover;
+      background-position: center;
+      padding: 60px 0;
+      text-align: center;
+      color: white;
+    }
+
+    .contact-hero h1 {
+      font-size: 40px;
+      color: darkblue;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(22, 14, 14, 0.5);
+    }
+
+    .contact-hero p {
+      color: black;
+      font=weight: bold;
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .contact-form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: -30px auto 30px;
+      max-width: 500px;
+    }
+
+    .contact-form h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #001f3f; /* Navy blue */
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contact-form label {
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #007bff; /* Blue focus border */
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    }
+
+    .contact-form .btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      background-color: #007bff; /* Blue */
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-form .btn:hover {
+      background-color:rgb(10, 32, 56); /* Darker blue */
+    }
+
+    .contact-info {
+      padding: 30px 0;
+      background-color: #ffffff;
+    }
+
+    .contact-info h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #001f3f; /* Navy blue */
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contact-info .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .contact-info .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .contact-info .card-body {
+      text-align: center;
+      padding: 15px;
+    }
+
+    .contact-info .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #001f3f; /* Navy blue */
+    }
+
+    .contact-info .card-text {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .contact-info .card img {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  {% include "hospital/navbar.html" %}
+  <br><br>
+
+  <!-- Hero Section -->
+  <div class="contact-hero">
+    <h1>Contact Us</h1>
+    <p>We’re here to help! Reach out to us for any inquiries or feedback.</p>
+  </div>
+
+  <!-- Contact Form -->
+  <div class="contact-form">
+    <h2>Send Us a Message</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" rows="3" placeholder="Enter your message" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+  </div>
+
+  <!-- Contact Info Section -->
+  <div class="contact-info">
+    <div class="container">
+      <h2>Get in Touch</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <img src="{% static 'images/location.png' %}" alt="Location">
+              <h5 class="card-title">Visit Us</h5>
+              <p class="card-text">123 Pluscare, Nrb, Kenya</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <img src="{% static 'images/phone.png' %}" alt="Phone">
+              <h5 class="card-title">Call Us</h5>
+              <p class="card-text">+254 705 758 447</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <img src="{% static 'images/email.png' %}" alt="Email">
+              <h5 class="card-title">Email Us</h5>
+              <p class="card-text">info@pluscare.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "hospital/footer.html" %}
+</body>
+
+
+
+</html>

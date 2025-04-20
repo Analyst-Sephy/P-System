@@ -1,0 +1,242 @@
+{% extends 'hospital/doctor_base.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+  <!-- Modern CDN Links -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style media="screen">
+    .appointments-container {
+      padding: 2rem;
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    
+    .panel-primary {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    .panel-heading {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      color: white;
+      padding: 1rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    
+    #dev-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    #dev-table thead th {
+      background-color: #f1f3f4;
+      color: #3c4043;
+      font-weight: 500;
+      padding: 12px 15px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    
+    #dev-table tbody tr {
+      transition: all 0.2s ease;
+    }
+    
+    #dev-table tbody tr:hover {
+      background-color: #f5f7ff;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    #dev-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: middle;
+    }
+    
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e0e0e0;
+      transition: all 0.3s ease;
+    }
+    
+    .profile-pic:hover {
+      transform: scale(1.1);
+      border-color: #1a73e8;
+    }
+    
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .status-pending {
+      background-color: #fef3c7;
+      color: #d97706;
+    }
+    
+    .status-confirmed {
+      background-color: #d1fae5;
+      color: #059669;
+    }
+    
+    .status-cancelled {
+      background-color: #fee2e2;
+      color: #dc2626;
+    }
+    
+    .action-btn {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .appointments-container {
+        padding: 1rem;
+      }
+      
+      #dev-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+
+<div class="appointments-container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h6 class="panel-title">Your Appointments</h6>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover" id="dev-table">
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Photo</th>
+            <th>Details</th>
+            <th>Contact</th>
+            <th>Date/Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a,p in appointments %}
+          <tr>
+            <td>
+              <strong>{{a.patientName}}</strong>
+              <br>
+              <small class="text-muted">ID: {{p.get_id}}</small>
+            </td>
+            <td>
+              <img src="{% static p.profile_pic.url %}" alt="Profile" class="profile-pic">
+            </td>
+            <td>
+              <div class="text-truncate" style="max-width: 200px;" title="{{a.description}}">
+                {{a.description}}
+              </div>
+              {% if a.symptoms %}
+              <small class="text-muted">Symptoms: {{a.symptoms}}</small>
+              {% endif %}
+            </td>
+            <td>
+              {{p.mobile}}<br>
+              <small class="text-muted">{{p.address|truncatechars:20}}</small>
+            </td>
+            <td>
+              {{a.appointmentDate}}<br>
+              <small class="text-muted">{{a.appointmentTime}}</small>
+            </td>
+            <td>
+              {% if a.status == 'Confirmed' %}
+              <span class="status-badge status-confirmed">Confirmed</span>
+              {% elif a.status == 'Cancelled' %}
+              <span class="status-badge status-cancelled">Cancelled</span>
+              {% else %}
+              <span class="status-badge status-pending">Pending</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="/doctor-appointment-details/{{a.id}}" class="btn btn-sm btn-outline-primary action-btn">
+                <i class="fas fa-eye"></i> View
+              </a>
+              <a href="/doctor-update-appointment/{{a.id}}" class="btn btn-sm btn-outline-success action-btn">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="text-center py-4">No appointments found</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Appointment Statistics -->
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Total Appointments</h5>
+          <h2 class="card-text">{{ total_appointments }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Confirmed</h5>
+          <h2 class="card-text">{{ confirmed_appointments }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Pending</h5>
+          <h2 class="card-text">{{ pending_appointments }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    // Make table rows clickable
+    $('#dev-table tbody tr').click(function() {
+      window.location = $(this).find('a.btn-outline-primary').attr('href');
+    });
+    
+    // Add tooltips for truncated text
+    $('[title]').tooltip();
+  });
+</script>
+
+{% endblock content %}

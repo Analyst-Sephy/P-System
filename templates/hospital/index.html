@@ -1,0 +1,418 @@
+{% extends 'hospital/homebase.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+  <style media="screen">
+    .jumbotron {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      background-image: url('{% static "images/back.jpg" %}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      padding: 100px 0;
+      color: white;
+      text-align: center;
+    }
+
+    .jumbotron h1 {
+      font-size: 60px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .jumbotron p {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    .jumbotron .btn {
+      margin-top: 20px;
+      font-size: 18px;
+      padding: 10px 30px;
+      border-radius: 25px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .card img {
+      border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    .services-section {
+      background-color: #f8f9fa;
+      padding: 50px 0;
+    }
+
+    .service-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .service-card img {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+      border-radius: 50%; 
+      border: 1px solid #007bff; /* Optional: Add a border */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      object-fit: cover;
+    }
+
+    .service-card h4 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      font-size: 16px;
+      color: #555;
+    }
+
+    testimonials-section {
+      padding: 50px 0;
+      background-color: #ffffff;
+    }
+
+    .testimonial-card {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-card p {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .testimonial-card h5 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .footer {
+      background-color: #001f3f; /* Navy blue */
+      color: #ffffff;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #7FDBFF; /* Light blue */
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #ffffff; /* White on hover */
+    }
+
+    /* Ethereum Section Styling */
+    .ethereum-section {
+      text-align: center;
+      margin-top: 50px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-top: 2px solid #ddd;
+    }
+    
+    #connectButton, #signMessageButton, #contractButton {
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
+
+</head>
+
+<!-- Hero Section -->
+<div class="jumbotron">
+  <h1>Welcome to Our VitalCare Center</h1>
+  <p>We provide the best healthcare services with compassion and excellence.</p>
+  <a class="btn btn-primary btn-lg" href="/patientclick" role="button">Take Appointment</a>
+</div>
+
+<!-- Services Section -->
+<div class="services-section">
+  <div class="container">
+    <h2 class="section-title">Our Services</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="service-card">
+          <img src="{% static 'images/emmer.jpg' %}" alt="Emergency Care">
+          <h4>Emergency Care</h4>
+          <p>24/7 emergency services with state-of-the-art facilities.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-card">
+          <img src="{% static 'images/surgery.jpg' %}" alt="Surgery">
+          <h4>Surgery</h4>
+          <p>Advanced surgical procedures performed by experienced surgeons.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-card">
+          <img src="{% static 'images/consultation.jpg' %}" alt="Consultation">
+          <h4>Consultation</h4>
+          <p>Expert consultations for all your healthcare needs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cards Section -->
+<div class="container" style="margin-top: 50px;">
+  <h2 class="section-title">Our Team</h2>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <img src="{% static 'images/doctor.jpg' %}" alt="Doctors">
+        <div class="card-body">
+          <h5 class="card-title">Doctors</h5>
+          <p class="card-text">Highly qualified and experienced doctors.</p>
+          <a href="/doctorclick" class="btn btn-primary">Learn More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <img src="{% static 'images/nurse.jpg' %}" alt="Nurses">
+        <div class="card-body">
+          <h5 class="card-title">Nurses</h5>
+          <p class="card-text">Dedicated and caring nursing staff.</p>
+          <a href="/nurseclick" class="btn btn-primary">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card">
+        <img src="{% static 'images/patient23.jpg' %}" alt="Patients">
+        <div class="card-body">
+          <h5 class="card-title">Patients</h5>
+          <p class="card-text">Compassionate care for all our patients.</p>
+          <a href="/patientclick" class="btn btn-primary">Learn More</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card">
+        <img src="{% static 'images/admin.jpg' %}" alt="Admin">
+        <div class="card-body">
+          <h5 class="card-title">Admin</h5>
+          <p class="card-text">Efficient management for seamless operations.</p>
+          <a href="/adminclick" class="btn btn-primary">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br>
+<div class="container">
+  <h2 class="section-title">The Patients' feedback</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="testimonial-card">
+        <img src="{% static 'images/man1.jpg' %}" alt="Patient 1">
+        <p>"The care I received was exceptional. The doctors and staff were very supportive."</p>
+        {% comment %} <h5>John Kamau</h5> {% endcomment %}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="testimonial-card">
+        <img src="{% static 'images/Smile1.jpg' %}" alt="Patient 2">
+        <p>"I am very satisfied with the treatment and facilities provided by the hospital."</p>
+        {% comment %} <h5>Jane Atieno</h5> {% endcomment %}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="testimonial-card">
+        <img src="{% static 'images/mask.jpg' %}" alt="Patient 3">
+        <p>"The hospital is well-equipped, and the staff is very professional."</p>
+        {% comment %} <h5>Alice Mwangi</h5> {% endcomment %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="ethereum-section">
+  <h3>Connect to your Wallet</h3>
+  <button id="connectButton">Connect Wallet</button>
+  <p id="walletAddress">Not connected</p>
+  <button id="signMessageButton" style="display: none;">Sign In with Ethereum</button>
+  <p id="authStatus"></p>
+  <button id="contractButton" style="display: none;">Interact with Contract</button>
+  <p id="contractResponse"></p>
+</div>
+
+
+<footer class="footer">
+  <div class="container">
+    <span>© 2025 Pluscare. All Rights Reserved | Designed by <a href="https://www.pluscare.com">Pluscare</a></span>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const connectButton = document.getElementById("connectButton");
+    const signMessageButton = document.getElementById("signMessageButton");
+    const contractButton = document.getElementById("contractButton");
+    const walletAddress = document.getElementById("walletAddress");
+    const authStatus = document.getElementById("authStatus");
+    const contractResponse = document.getElementById("contractResponse");
+    
+    let web3;
+    let userAccount = "";
+    const contractAddress = "0x18723EE3a62F40A678e15bD5718365408e96181a"; // Updated contract address
+    const contractABI = [
+      { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+      { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "user", "type": "address" }], "name": "UserAuthenticated", "type": "event" },
+      { "inputs": [], "name": "authenticateUser", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+      { "inputs": [], "name": "getHospitalData", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }
+    ];
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          web3 = new Web3(window.ethereum);
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          userAccount = accounts[0];
+          walletAddress.innerText = `Connected: ${userAccount}`;
+          signMessageButton.style.display = "block";
+          contractButton.style.display = "block";
+        } catch (error) {
+          console.error("Wallet connection failed:", error);
+          walletAddress.innerText = "Connection failed";
+        }
+      } else {
+        alert("MetaMask not detected! Please install MetaMask.");
+      }
+    }
+
+    // Remove the switchToGanache function since we directly connect to Ganache
+    async function connectToGanache() {
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [{
+              chainId: "1337", // Ganache chain ID (0x539 in hexadecimal)
+              chainName: "Ganache Local Testnet",
+              rpcUrls: ["http://127.0.0.1:8545"], // Ganache RPC URL
+              nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 }
+            }]
+          });
+          console.log("Connected to Ganache!");
+        } catch (error) {
+          console.error("Error connecting to Ganache:", error);
+        }
+      }
+    }
+
+    async function signMessage() {
+      if (!userAccount) {
+        authStatus.innerText = "Please connect your wallet first.";
+        return;
+      }
+      const message = `Sign in to our hospital system - ${new Date().toISOString()}`;
+      try {
+        const signature = await window.ethereum.request({
+          method: "personal_sign",
+          params: [message, userAccount]
+        });
+        authStatus.innerText = `Authenticated! Signature: ${signature}`;
+      } catch (error) {
+        console.error("Signing failed:", error);
+        authStatus.innerText = "Signing failed";
+      }
+    }
+
+    async function interactWithContract() {
+      if (!web3) {
+        alert("Please connect your wallet first.");
+        return;
+      }
+      try {
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        const response = await contract.methods.getHospitalData().call({ from: userAccount });
+        contractResponse.innerText = `Contract Response: ${response}`;
+      } catch (error) {
+        console.error("Error interacting with contract:", error);
+        contractResponse.innerText = "Error interacting with contract";
+      }
+    }
+
+    connectButton.addEventListener("click", connectWallet);
+    signMessageButton.addEventListener("click", signMessage);
+    contractButton.addEventListener("click", interactWithContract);
+
+    // Automatically connect to Ganache local network when page loads
+    connectToGanache();
+  });
+</script>
+
+
+{% endblock content %}

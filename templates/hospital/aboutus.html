@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Pluscare || About Us</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.3.0/web3.min.js"></script>
+  <style media="screen">
+    .jumbotron {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      background-color: #f8f9fa;
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .jumbotron h1 {
+      font-size: 48px;
+      font-weight: bold;
+      color: #001f3f; /* Navy blue */
+    }
+
+    .jumbotron p {
+      font-size: 20px;
+      color: #333;
+      margin-top: 20px;
+    }
+
+    .jumbotron .btn {
+      margin-top: 20px;
+      font-size: 18px;
+      padding: 10px 30px;
+      border-radius: 25px;
+    }
+
+    .about-section {
+      padding: 50px 0;
+      background-color: #ffffff;
+    }
+
+    .about-section h2 {
+      font-size: 36px;
+      font-weight: bold;
+      color: #001f3f; /* Navy blue */
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .about-section p {
+      font-size: 18px;
+      color: #555;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .mission-vision-section {
+      padding: 50px 0;
+      background-color: #f8f9fa;
+    }
+
+    .mission-vision-section h3 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #001f3f; /* Navy blue */
+      margin-bottom: 20px;
+    }
+
+    .mission-vision-section p {
+      font-size: 18px;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .team-section {
+      padding: 50px 0;
+      background-color: #ffffff;
+    }
+
+    .team-section h2 {
+      font-size: 36px;
+      font-weight: bold;
+      color: #001f3f; /* Navy blue */
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .team-card {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .team-card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      border: 3px solid #007bff; /* Blue border */
+    }
+
+    .team-card h4 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #001f3f; /* Navy blue */
+    }
+
+    .team-card p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .footer {
+      background-color: #001f3f; /* Navy blue */
+      color: #ffffff;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #7FDBFF; /* Light blue */
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #ffffff; /* White on hover */
+    }
+  </style>
+</head>
+
+<body>
+  {% include "hospital/navbar.html" %}
+  <br><br>
+
+  <!-- Hero Section -->
+  <div class="jumbotron">
+    <h1 class="display-4">About Pluscare</h1>
+    <p class="lead">Your Trusted Partner in Healthcare</p>
+    <hr class="my-4">
+    <p>At Pluscare, we are committed to providing exceptional healthcare services to our patients, doctors, and administrators.</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" href="/" role="button">Home</a>
+    </p>
+  </div>
+
+  <!-- About Section -->
+  <div class="about-section">
+    <div class="container">
+      <h2>Who We Are</h2>
+      <p>
+        Pluscare is a leading healthcare provider dedicated to delivering high-quality medical services. Our mission is to improve the health and well-being of our community through compassionate care, advanced technology, and a patient-centered approach. With a team of experienced doctors, nurses, and healthcare professionals, we strive to provide the best possible care to our patients.
+      </p>
+      <p>
+        Founded in 2010, Pluscare has grown to become one of the most trusted names in healthcare. We offer a wide range of services, including emergency care, surgery, consultations, and specialized treatments. Our state-of-the-art facilities and commitment to excellence ensure that our patients receive the care they deserve.
+      </p>
+    </div>
+  </div>
+
+  <!-- Mission and Vision Section -->
+  <div class="mission-vision-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Our Mission</h3>
+          <p>
+            To provide exceptional healthcare services that improve the lives of our patients. We are committed to delivering compassionate, patient-centered care using the latest medical advancements.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h3>Our Vision</h3>
+          <p>
+            To be the leading healthcare provider in the region, recognized for our excellence in patient care, innovation, and community service.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team Section -->
+  <div class="team-section">
+    <div class="container">
+      <h2>Meet Our Team</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="team-card">
+            <img src="{% static 'images/doctor.jpg' %}" alt="Doctor 1">
+            <h4>Dr. Martin Chege</h4>
+            <p>Chief Medical Officer</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="team-card">
+            <img src="{% static 'images/doc.jpg' %}" alt="Doctor 2">
+            <h4>Dr. Rebby Jack</h4>
+            <p>Senior Surgeon</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="team-card">
+            <img src="{% static 'images/dock.jpg' %}" alt="Doctor 3">
+            <h4>Dr. Alice Johnson</h4>
+            <p>Head of Pediatrics</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container">
+      <span>© 2025 Pluscare. All Rights Reserved | Designed by <a href="https://www.pluscare.com">Pluscare</a></span>
+    </div>
+  </footer>
+</body>
+
+
+
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Pluscare</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.3.0/web3.min.js"></script>
+
+  <link rel="stylesheet" href="{% static '/style.css' %}">
+
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    a {
+      color: white;
+    }
+
+    a:hover {
+      color: white;
+    }
+
+    /*---------------------------------------
+       Social section
+    -----------------------------------------*/
+    footer {
+      background: #0a192f;
+      padding: 2rem 0;
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid rgba(0, 168, 255, 0.2);
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--glow-blue), var(--glow-teal));
+    }
+    
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin: 0 0.5rem;
+      transition: all 0.3s ease;
+      color: white;
+    }
+    
+    .social-icon:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* ===== ANIMATIONS ===== */
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px rgba(0, 168, 255, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(0, 168, 255, 0.8); }
+      100% { box-shadow: 0 0 5px rgba(0, 168, 255, 0.5); }
+    }
+    
+    .glow-effect {
+      animation: glow 3s infinite;
+    }
+    
+    p {
+      text-align: center;
+      color: #ffffff; /* White text for better contrast */
+    }
+
+    body {
+      padding-left: 240px;
+      background-color:rgb(65, 68, 70); /* Light cool background */
+    }
+
+    main {
+      position: relative;
+      height: 100vh;
+    }
+
+    .menu {
+      background: #001f3f; /* Navy blue for the menu */
+      height: 100vh;
+      width: 240px;
+      position: fixed;
+      top: 0px;
+      left: 0;
+      z-index: 5;
+      outline: none;
+    }
+
+    .menu .avatar {
+      background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+      padding: 2em 0.5em;
+      text-align: center;
+    }
+
+    .menu .avatar img {
+      width: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #ffea92;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+    }
+
+    .menu .avatar h2 {
+      font-weight: normal;
+      margin-bottom: 0;
+      color: #ffffff; /* White text */
+    }
+
+    .menu ul {
+      list-style: none;
+      padding: 0.5em 0;
+      margin: 0;
+    }
+
+    .menu ul li {
+      padding: 0.5em 1em 0.5em 3em;
+      font-size: 0.95em;
+      font-weight: regular;
+      background-repeat: no-repeat;
+      background-position: left 15px center;
+      background-size: auto 20px;
+      transition: all 0.15s linear;
+      cursor: pointer;
+      color: #ffffff; /* White text */
+    }
+
+    .menu ul li.icon-dashboard {
+      background-image: url("http://www.entypo.com/images//gauge.svg");
+    }
+
+    .menu ul li.icon-customers {
+      background-image: url("http://www.entypo.com/images//briefcase.svg");
+    }
+
+    .menu ul li.icon-users {
+      background-image: url("http://www.entypo.com/images//users.svg");
+    }
+
+    .menu ul li.icon-calendar {
+      background-image: url("http://www.entypo.com/images//calendar.svg");
+    }
+
+    .menu ul li:hover {
+      background-color: rgba(255, 255, 255, 0.1); /* Light hover effect */
+    }
+
+    .menu ul li:focus {
+      outline: none;
+    }
+
+    @media screen and (max-width: 900px) and (min-width: 400px) {
+      body {
+        padding-left: 90px;
+      }
+
+      .menu {
+        width: 90px;
+      }
+
+      .menu .avatar {
+        padding: 0.5em;
+        position: relative;
+      }
+
+      .menu .avatar img {
+        width: 60px;
+      }
+
+      .menu .avatar h2 {
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 100px;
+        margin: 0;
+        min-width: 200px;
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.4);
+        transform: translate3d(-20px, -50%, 0);
+        transition: all 0.15s ease-in-out;
+      }
+
+      .menu .avatar:hover h2 {
+        opacity: 1;
+        transform: translate3d(0px, -50%, 0);
+      }
+
+      .menu ul li {
+        height: 60px;
+        background-position: center center;
+        background-size: 30px auto;
+        position: relative;
+      }
+
+      .menu ul li span {
+        opacity: 0;
+        position: absolute;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 0.2em 0.5em;
+        border-radius: 4px;
+        top: 50%;
+        left: 80px;
+        transform: translate3d(-15px, -50%, 0);
+        transition: all 0.15s ease-in-out;
+      }
+
+      .menu ul li span:before {
+        content: '';
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 50%;
+        left: -5px;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-right: 5px solid rgba(0, 0, 0, 0.5);
+        transform: translateY(-50%);
+      }
+
+      .menu ul li:hover span {
+        opacity: 1;
+        transform: translate3d(0px, -50%, 0);
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      body {
+        padding-left: 0;
+      }
+      /* Sidebar */
+      .menu {
+        background: #001f3f;
+        width: 240px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      }
+  
+      .menu .avatar {
+        padding: 2em 1em;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+      }
+  
+      .menu .avatar img {
+        width: 100px;
+        border-radius: 50%;
+        border: 3px solid #3498db;
+      }
+  
+      .menu .avatar h2 {
+        color: #fff;
+        font-size: 1.2em;
+        margin-top: 10px;
+      }
+  
+      .menu ul {
+        list-style: none;
+        padding: 0;
+      }
+  
+      .menu ul li {
+        padding: 15px 20px;
+        color: #fff;
+        font-size: 1em;
+        transition: all 0.3s ease;
+      }
+  
+      .menu ul li:hover {
+        background: #34495e;
+        padding-left: 25px;
+      }
+  
+      .menu ul li i {
+        margin-right: 10px;
+      }
+  
+      /* Main Content */
+      main {
+        padding: 20px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- partial:index.partial.html -->
+  <nav class="menu" tabindex="0">
+    <div class="smartphone-menu-trigger"></div>
+    <header class="avatar">
+      <img src="{% static "images/admin2.jpg" %}" />
+      <br><br>
+      <h6>Admin</h6>
+      <h2>{{request.user.first_name}}</h2>
+    </header>
+    <ul>
+      <li tabindex="0" class="icon-dashboard"> <a style="color:white; text-decoration:none;" href="/admin-dashboard"><span>Dashboard</span></a> </li>
+      <li tabindex="0" class="icon-customers"> <a style="color:white; text-decoration:none;" href="/admin-doctor"><span>Doctor</span></a></li>
+      <li tabindex="0" class="icon-users"> <a style="color:white; text-decoration:none;" href="/admin-patient"><span>Patient</span></a></li>
+      <li tabindex="0" class="icon-calendar"> <a style="color:white; text-decoration:none;" href="/admin-appointment"><span>Appointment</span></a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+
+    <!-- nav start -->
+    <div class="bs-example">
+      <nav class="navbar navbar-expand-md  navbar-dark fixed-top" style="background:#001f3f;">
+        <a href="/admin-dashboard" class="navbar-brand">My Dashboard</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+          <div class="navbar-nav" style=" margin-left: 90%;">
+
+            {% if user.is_authenticated %}
+            <!-- Secure Logout Button -->
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="nav-item nav-link btn btn-link"
+                      onclick="return confirm('Are you sure you want to log out?');">
+                  Logout
+              </button>
+            </form>
+            {% endif %}
+
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!-- nav end -->
+
+
+
+    <br><br>
+
+    <!-- content start-->
+    {% block content %}
+
+    {% endblock content %}
+    <!-- content end-->
+
+    <br><br><br><br>
+    <footer class="mt-5">
+      <div class="container">
+        <div class="row g-4">
+          <!-- Quick Links -->
+          <div class="col-md-4">
+            <h5 class="text-white mb-4">Quick Links</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="/aboutus" class="text-white-50 text-decoration-none hover-glow">About Us</a></li>
+              <li class="mb-2"><a href="/services" class="text-white-50 text-decoration-none hover-glow">Services</a></li>
+              <li class="mb-2"><a href="/doctors" class="text-white-50 text-decoration-none hover-glow">Doctors</a></li>
+              <li class="mb-2"><a href="/contactus" class="text-white-50 text-decoration-none hover-glow">Contact</a></li>
+            </ul>
+          </div>
+          
+          <!-- Contact Info -->
+          <div class="col-md-4">
+            <h5 class="text-white mb-4">Contact Us</h5>
+            <ul class="list-unstyled text-white-50">
+              <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-info"></i> 041 Hospital, Homabay, Homabay</li>
+              <li class="mb-2"><i class="fas fa-phone me-2 text-info"></i> +254-702-456-789</li>
+              <li class="mb-2"><i class="fas fa-envelope me-2 text-info"></i> info@pluscare.com</li>
+            </ul>
+          </div>
+          
+          <!-- Social Media -->
+          <div class="col-md-4">
+            <h5 class="text-white mb-4">Connect With Us</h5>
+            <div class="d-flex">
+              <a href="#" class="social-icon bg-facebook me-2"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-icon bg-twitter me-2"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-icon bg-instagram me-2"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-icon bg-linkedin"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            
+            <div class="mt-4">
+              <h6 class="text-white mb-2">Newsletter</h6>
+              <div class="input-group">
+                <input type="email" class="form-control bg-dark border-secondary text-white" placeholder="Your Email">
+                <button class="btn btn-primary" type="button">Subscribe</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <hr class="mt-4 mb-3" style="border-color: rgba(0,168,255,0.2);">
+        
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <p class="text-white-50 mb-0">&copy; 2025 Pluscare Hospital. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,341 @@
+{% extends 'hospital/doctor_base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Modern CDN Links -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.3.0/web3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script>
+
+
+  <style type="text/css">
+    :root {
+      --primary-blue: #1a73e8;
+      --secondary-blue: #4285f4;
+      --success-green: #34a853;
+      --warning-yellow: #f9ab00;
+      --danger-red: #ea4335;
+      --light-gray: #f8f9fa;
+      --dark-gray: #3c4043;
+    }
+    
+    .dashboard-container {
+      padding: 2rem;
+      background-color: var(--light-gray);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+    
+    .card {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      height: 100%;
+      margin-bottom: 25px;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .bg-c-blue {
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    }
+    
+    .bg-c-green {
+      background: linear-gradient(135deg, var(--success-green), #59e0c5);
+    }
+    
+    .bg-c-yellow {
+      background: linear-gradient(135deg, var(--warning-yellow), #ffcb80);
+    }
+    
+    .bg-c-pink {
+      background: linear-gradient(135deg, var(--danger-red), #ff869a);
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+      color: white;
+      position: relative;
+    }
+    
+    .card-icon {
+      font-size: 2.5rem;
+      opacity: 0.3;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+    
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+    
+    .card-link {
+      color: white;
+      text-decoration: none;
+      display: block;
+      transition: all 0.3s ease;
+    }
+    
+    .card-link:hover {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+    }
+    
+    .stats-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .quick-actions {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    
+    .action-btn {
+      border-radius: 8px;
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
+      transition: all 0.3s ease;
+      border: none;
+      text-align: left;
+    }
+    
+    .action-btn:hover {
+      transform: translateX(5px);
+    }
+    
+    .action-icon {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 1rem;
+      }
+      
+      .card-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<div class="dashboard-container">
+  <div class="row">
+    <!-- Main Stats Cards -->
+    <div class="col-md-6 col-lg-3">
+      <a href="/doctor-view-patient" class="card-link">
+        <div class="card bg-c-blue">
+          <div class="card-body">
+            <i class="fas fa-user-injured card-icon"></i>
+            <h5 class="card-title">Active Patients</h5>
+            <h2 class="card-value">{{ active_patients }}</h2>
+            <p class="stats-label">Under your care</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+      <a href="/doctor-appointment" class="card-link">
+        <div class="card bg-c-green">
+          <div class="card-body">
+            <i class="fas fa-calendar-check card-icon"></i>
+            <h5 class="card-title">Today's Appointments</h5>
+            <h2 class="card-value">{{ todays_appointments }}</h2>
+            <p class="stats-label">Scheduled for today</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+      <a href="/doctor-view-discharge-patient" class="card-link">
+        <div class="card bg-c-yellow">
+          <div class="card-body">
+            <i class="fas fa-eject card-icon"></i>
+            <h5 class="card-title">Discharged Patients</h5>
+            <h2 class="card-value">{{ discharged_patients }}</h2>
+            <p class="stats-label">Past 30 days</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+      <a href="/doctor-prescription" class="card-link">
+        <div class="card bg-c-pink">
+          <div class="card-body">
+            <i class="fas fa-prescription-bottle-alt card-icon"></i>
+            <h5 class="card-title">Prescriptions</h5>
+            <h2 class="card-value">{{ prescriptions_count }}</h2>
+            <p class="stats-label">Issued this month</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="row mt-4">
+    <!-- Quick Actions -->
+    <div class="col-lg-4">
+      <div class="quick-actions">
+        <h5 class="mb-4">Quick Actions</h5>
+        
+        <a href="/doctor-appointment" class="btn btn-primary action-btn">
+          <i class="fas fa-calendar-plus action-icon"></i>
+          Schedule Appointment
+        </a>
+        
+        <a href="/doctor-prescription" class="btn btn-success action-btn">
+          <i class="fas fa-prescription-bottle-alt action-icon"></i>
+          Write Prescription
+        </a>
+        
+        <a href="/doctor-patient" class="btn btn-info action-btn">
+          <i class="fas fa-user-plus action-icon"></i>
+          Add New Patient
+        </a>
+        
+        <a href="/doctor-view-patient" class="btn btn-warning action-btn">
+          <i class="fas fa-file-medical action-icon"></i>
+          View Patient Records
+        </a>
+      </div>
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Recent Activity</h5>
+        </div>
+        <div class="card-body">
+          {% if recent_activity %}
+          <ul class="list-group list-group-flush">
+            {% for activity in recent_activity %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <i class="fas fa-{{ activity.icon }} me-2 text-{{ activity.color }}"></i>
+                {{ activity.message }}
+              </div>
+              <small class="text-muted">{{ activity.timestamp|timesince }} ago</small>
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <div class="text-center py-3 text-muted">No recent activity found</div>
+          {% endif %}
+        </div>
+        <div class="card-footer text-end">
+          <a href="/doctor-activity" class="btn btn-sm btn-outline-primary">View All Activity</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Upcoming Appointments -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Upcoming Appointments (Next 7 Days)</h5>
+        </div>
+        <div class="card-body">
+          {% if upcoming_appointments %}
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Date & Time</th>
+                  <th>Purpose</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for app in upcoming_appointments %}
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img src="{% static app.patient.profile_pic.url %}" class="rounded-circle me-2" width="40" height="40" alt="">
+                      {{ app.patient.get_name }}
+                    </div>
+                  </td>
+                  <td>{{ app.appointmentDate }} at {{ app.appointmentTime }}</td>
+                  <td>{{ app.description|truncatechars:30 }}</td>
+                  <td>
+                    <span class="badge bg-{% if app.status %}success{% else %}warning{% endif %}">
+                      {% if app.status %}Confirmed{% else %}Pending{% endif %}
+                    </span>
+                  </td>
+                  <td>
+                    <a href="/doctor-appointment-details/{{ app.id }}" class="btn btn-sm btn-outline-primary">Details</a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="text-center py-3 text-muted">No upcoming appointments scheduled</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Add animations and interactions
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animate cards on load
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'all 0.5s ease ' + (index * 0.1) + 's';
+      
+      setTimeout(() => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 100);
+    });
+    
+    // Add click effect to cards
+    cards.forEach(card => {
+      card.addEventListener('click', function() {
+        this.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+  });
+</script>
+
+{% endblock content %}

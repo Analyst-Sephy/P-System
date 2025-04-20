@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Pluscare Admin Dashboard</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Carrois+Gothic&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.3.0/web3.min.js"></script>
+  <style media="screen">
+    body {
+      background-color: #f0f4f8; /* Cool light blue background */
+      font-family: 'Roboto', sans-serif;
+      color: #2c3e50;
+    }
+
+    .market-updates {
+      padding: 20px;
+    }
+
+    .market-update-block {
+      padding: 2em;
+      background: #ffffff; /* White background for blocks */
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .market-update-block:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .market-update-block h3 {
+      color: #2c3e50; /* Dark blue text */
+      font-size: 2.5em;
+      font-family: 'Carrois Gothic', sans-serif;
+      margin-bottom: 0.5em;
+      font-weight: bold;
+    }
+
+    .market-update-block h4 {
+      font-size: 1.2em;
+      color: #34495e; /* Slightly lighter blue text */
+      margin: 0.3em 0;
+      font-family: 'Carrois Gothic', sans-serif;
+      font-weight: 500;
+    }
+
+    .market-update-block p {
+      color: #7f8c8d; /* Gray text for details */
+      font-size: 0.9em;
+      line-height: 1.8em;
+      margin: 0.5em 0;
+    }
+
+    .market-update-block.clr-block-1 {
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* Soft pink to peach gradient */
+      color: #ffffff;
+    }
+
+    .market-update-block.clr-block-2 {
+      background: linear-gradient(135deg, #a18cd1, #fbc2eb); /* Lavender to pink gradient */
+      color: #ffffff;
+    }
+
+    .market-update-block.clr-block-3 {
+      background: linear-gradient(135deg, #f6d365, #fda085); /* Golden to coral gradient */
+      color: #ffffff;
+    }
+
+    .market-update-right i.fa {
+      font-size: 3em;
+      color: #ffffff;
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      text-align: center;
+      border-radius: 50%;
+      line-height: 1.7em;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .market-update-right i.fa:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .market-update-left {
+      padding: 0px;
+    }
+
+    .additional-info {
+      margin-top: 20px;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .additional-info h3 {
+      color: #2c3e50;
+      font-size: 2em;
+      margin-bottom: 1em;
+      font-family: 'Carrois Gothic', sans-serif;
+      font-weight: bold;
+    }
+
+    .additional-info p {
+      color: #7f8c8d;
+      font-size: 1em;
+      line-height: 1.6em;
+    }
+
+    .additional-info ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .additional-info ul li {
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f4f8;
+      font-size: 0.9em;
+      color: #7f8c8d;
+    }
+
+    .additional-info ul li:last-child {
+      border-bottom: none;
+    }
+
+    .clearfix {
+      clear: both;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .market-update-block {
+        padding: 1.5em;
+      }
+
+      .market-update-block h3 {
+        font-size: 2em;
+      }
+
+      .market-update-block h4 {
+        font-size: 1em;
+      }
+
+      .market-update-block p {
+        font-size: 0.8em;
+      }
+
+      .market-update-right i.fa {
+        font-size: 2.5em;
+        width: 60px;
+        height: 60px;
+        line-height: 1.5em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="market-updates">
+    <div class="col-md-4 market-update-gd">
+      <div class="market-update-block clr-block-1">
+        <div class="col-md-8 market-update-left">
+          <h3>{{doctorcount}}</h3>
+          <h4>Total Doctors</h4>
+          <p>Approval Required: {{pendingdoctorcount}}</p>
+          <p>Active Doctors: {{activedoctorcount}}</p>
+        </div>
+        <div class="col-md-4 market-update-right">
+          <i class="fa fa-user-md"></i>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-md-4 market-update-gd">
+      <div class="market-update-block clr-block-2">
+        <div class="col-md-8 market-update-left">
+          <h3>{{patientcount}}</h3>
+          <h4>Total Patients</h4>
+          <p>Wants to Admit: {{pendingpatientcount}}</p>
+          <p>Active Patients: {{activepatientcount}}</p>
+        </div>
+        <div class="col-md-4 market-update-right">
+          <i class="fa fa-user-o"></i>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-md-4 market-update-gd">
+      <div class="market-update-block clr-block-3">
+        <div class="col-md-8 market-update-left">
+          <h3>{{appointmentcount}}</h3>
+          <h4>Total Appointments</h4>
+          <p>Approve Appointments: {{pendingappointmentcount}}</p>
+          <p>Completed Appointments: {{completedappointmentcount}}</p>
+        </div>
+        <div class="col-md-4 market-update-right">
+          <i class="fa fa-calendar"></i>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <!-- Additional Information Section -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 additional-info">
+        <h3>Hospital Statistics</h3>
+        <p>
+          Welcome to the Hospital Management Dashboard. Here, you can view key statistics about doctors, patients, and appointments. 
+          The system is designed to help you manage hospital operations efficiently. Below is a summary of recent activities:
+        </p>
+        <ul>
+          <li><strong>Recent Doctors:</strong> {{recentdoctors}}</li>
+          <li><strong>Recent Patients:</strong> {{recentpatients}}</li>
+          <li><strong>Recent Appointments:</strong> {{recentappointments}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

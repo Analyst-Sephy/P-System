@@ -1,0 +1,296 @@
+{% extends 'hospital/doctor_base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  /* Enhanced Dashboard Styles */
+  .dashboard-container {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  }
+  
+  .panel-primary {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  
+  .panel-heading {
+    background: linear-gradient(135deg, #1a73e8, #0d47a1) !important;
+    color: white !important;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-radius: 8px 8px 0 0 !important;
+  }
+  
+  #dev-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  #dev-table thead th {
+    background-color: #f1f3f4;
+    color: #3c4043;
+    font-weight: 500;
+    padding: 12px 15px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+  
+  #dev-table tbody tr {
+    transition: all 0.2s ease;
+  }
+  
+  #dev-table tbody tr:hover {
+    background-color: #f5f7ff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  
+  #dev-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+  }
+  
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-pic:hover {
+    transform: scale(1.1);
+    border-color: #1a73e8;
+  }
+  
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .status-pending {
+    background-color: #fef3c7;
+    color: #d97706;
+  }
+  
+  .status-completed {
+    background-color: #d1fae5;
+    color: #059669;
+  }
+  
+  .stats-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  }
+  
+  .stats-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a73e8;
+  }
+  
+  .stats-label {
+    color: #5f6368;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding: 1rem;
+    }
+    
+    #dev-table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+</style>
+
+<div class="dashboard-container">
+  <!-- Dashboard Cards -->
+  {% include 'hospital/doctor_dashboard_cards.html' %}
+  
+  <!-- Quick Stats Row -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="stats-card">
+        <div class="stats-value">{{ pending_appointments }}</div>
+        <div class="stats-label">Pending Appointments</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stats-card">
+        <div class="stats-value">{{ total_patients }}</div>
+        <div class="stats-label">Total Patients</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stats-card">
+        <div class="stats-value">{{ todays_appointments }}</div>
+        <div class="stats-label">Today's Appointments</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Appointments Table -->
+  <div class="row">
+    <div class="col-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h6 class="panel-title">Your Recent Appointments</h6>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover" id="dev-table">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Photo</th>
+                <th>Details</th>
+                <th>Contact</th>
+                <th>Date/Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for a,p in appointments %}
+              <tr>
+                <td>
+                  <strong>{{a.patientName}}</strong><br>
+                  <small class="text-muted">ID: {{p.get_id}}</small>
+                </td>
+                <td>
+                  <img src="{% static p.profile_pic.url %}" alt="Profile" class="profile-pic">
+                </td>
+                <td>
+                  <div class="text-truncate" style="max-width: 200px;" title="{{a.description}}">
+                    {{a.description}}
+                  </div>
+                  {% if a.symptoms %}
+                  <small class="text-muted">Symptoms: {{a.symptoms}}</small>
+                  {% endif %}
+                </td>
+                <td>
+                  {{p.mobile}}<br>
+                  <small class="text-muted">{{p.address|truncatechars:20}}</small>
+                </td>
+                <td>
+                  {{a.appointmentDate}}<br>
+                  <small class="text-muted">{{a.appointmentTime}}</small>
+                </td>
+                <td>
+                  {% if a.status %}
+                  <span class="status-badge status-completed">Completed</span>
+                  {% else %}
+                  <span class="status-badge status-pending">Pending</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="6" class="text-center py-4">No appointments found</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Additional Doctor Information -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h6 class="panel-title">Your Upcoming Schedule</h6>
+        </div>
+        <div class="p-3">
+          {% if upcoming_appointments %}
+          <ul class="list-group">
+            {% for app in upcoming_appointments|slice:":5" %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ app.patientName }}</strong><br>
+                <small>{{ app.appointmentDate }} at {{ app.appointmentTime }}</small>
+              </div>
+              <span class="badge bg-primary rounded-pill">{{ app.department }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <div class="text-center py-3 text-muted">No upcoming appointments</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h6 class="panel-title">Quick Actions</h6>
+        </div>
+        <div class="p-3">
+          <div class="d-grid gap-2">
+            <a href="/doctor-patient" class="btn btn-outline-primary btn-block">
+              <i class="fas fa-user-injured me-2"></i> View All Patients
+            </a>
+            <a href="/doctor-appointment" class="btn btn-outline-primary btn-block">
+              <i class="fas fa-calendar-check me-2"></i> Manage Appointments
+            </a>
+            <a href="#" class="btn btn-outline-primary btn-block">
+              <i class="fas fa-prescription me-2"></i> Write Prescription
+            </a>
+            {% comment %} <a href="#" class="btn btn-outline-primary btn-block">
+              <i class="fas fa-file-medical me-2"></i> View Medical Reports
+            </a> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Add interactive elements
+  document.addEventListener('DOMContentLoaded', function() {
+    // Make table rows clickable
+    document.querySelectorAll('#dev-table tbody tr').forEach(row => {
+      row.addEventListener('click', function() {
+        // You can add functionality to view appointment details
+        console.log('View appointment details for:', this.cells[0].textContent.trim());
+      });
+    });
+    
+    // Add tooltips for truncated text
+    $('[title]').tooltip();
+    
+    // Animate cards on load
+    $('.stats-card').each(function(i) {
+      $(this).delay(i * 150).animate({
+        opacity: 1,
+        top: 0
+      }, 300);
+    });
+  });
+</script>
+
+{% endblock content %}
